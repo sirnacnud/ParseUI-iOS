@@ -153,6 +153,15 @@ extern NSString *const PFSignUpViewControllerDelegateInfoAdditionalKey;
  */
 - (BOOL)signUpViewController:(PFSignUpViewController *)signUpController shouldBeginSignUp:(NSDictionary<NSString *, NSString *> *)info;
 
+/**
+ Sent to the delegate to give the option of customizing the user with additional properties before sign up.
+ 
+ @param signUpController The signup view controller that is requesting the data.
+ @param user User to customize with additional properties.
+ */
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController customizeUserBeforeSignUp:(PFUser *)user;
+
 ///--------------------------------------
 /// @name Responding to Actions
 ///--------------------------------------

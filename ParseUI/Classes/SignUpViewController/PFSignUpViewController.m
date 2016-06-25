@@ -42,6 +42,7 @@ NSString *const PFSignUpViewControllerDelegateInfoAdditionalKey = @"additional";
 @interface PFSignUpViewController () {
     struct {
         BOOL shouldSignUp : YES;
+        BOOL customizeUser: YES;
         BOOL didSignUp : YES;
         BOOL didFailToSignUp : YES;
         BOOL didCancelSignUp : YES;
@@ -151,6 +152,8 @@ NSString *const PFSignUpViewControllerDelegateInfoAdditionalKey = @"additional";
 
         _delegateExistingMethods.shouldSignUp = [delegate respondsToSelector:@selector(signUpViewController:
                                                                                        shouldBeginSignUp:)];
+        _delegateExistingMethods.customizeUser = [delegate respondsToSelector:@selector(signUpViewController:
+                                                                                        customizeUserBeforeSignUp:)];
         _delegateExistingMethods.didSignUp = [delegate respondsToSelector:@selector(signUpViewController:
                                                                                     didSignUpUser:)];
         _delegateExistingMethods.didFailToSignUp = [delegate respondsToSelector:@selector(signUpViewController:
@@ -292,6 +295,10 @@ NSString *const PFSignUpViewControllerDelegateInfoAdditionalKey = @"additional";
         user[PFSignUpViewControllerDelegateInfoAdditionalKey] = additional;
     }
 
+    if (_delegateExistingMethods.customizeUser) {
+        [_delegate signUpViewController:self customizeUserBeforeSignUp:user];
+    }
+    
     self.loading = YES;
     if ([_signUpView.signUpButton isKindOfClass:[PFPrimaryButton class]]) {
         [(PFPrimaryButton *)_signUpView.signUpButton setLoading:YES];
